@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="it">
+<!--
+  ============================================================================
+  OROBIC YOUTH — Official Website
+  ============================================================================
+
+  HOW TO ADD A NEW PROJECT (the part you'll do most often):
+    1. Copy one full <article class="project-card">...</article> block.
+    2. Change the four attributes at the top of the new <article>:
+         a) data-project-link  -> your Canva URL
+         b) data-join-link     -> email/form link
+         c) <img src="...">    -> thumbnail (e.g. assets/yourfile.jpg)
+         d) <h3> and <p>       -> title and description (both data-en AND data-it)
+    The "View Project" and "Join This Project" buttons auto-wire from
+    data-* attributes — no JS changes needed.
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <meta name="theme-color" content="#F5A15C" />
+  <meta name="description"
+        data-en="Orobic Youth — a youth NGO from Bergamo empowering young people across Europe through non-formal education, intercultural dialogue, and community engagement."
+        data-it="Orobic Youth — associazione giovanile di Bergamo che dà voce ai giovani di tutta Europa attraverso educazione non formale, dialogo interculturale e impegno comunitario."
+        content="Orobic Youth — associazione giovanile di Bergamo che dà voce ai giovani di tutta Europa attraverso educazione non formale, dialogo interculturale e impegno comunitario." />
+  <title data-en="Orobic Youth — Empowering Youth, Shaping the Future" data-it="Orobic Youth — Dare voce ai giovani, costruire il futuro">Orobic Youth — Dare voce ai giovani, costruire il futuro</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            orobic: {
+              orange:   '#F5A15C',
+              orangeDk: '#E8823A',
+              peach:    '#FCE1C2',
+              cream:    '#FFF8F0',
+              charcoal: '#1F1A17',
+              slate:    '#5E5048',
+              euBlue:   '#003399',
+            },
+          },
+          fontFamily: {
+            display: ['Fraunces', 'serif'],
+            script:  ['Caveat', 'cursive'],
+            sans:    ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 40px -12px rgba(31, 26, 23, 0.15)',
+            card: '0 20px 50px -20px rgba(31, 26, 23, 0.25)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --orobic-orange: #F5A15C;
+      --orobic-orange-dk: #E8823A;
+      --orobic-peach: #FCE1C2;
+      --orobic-cream: #FFF8F0;
+      --orobic-charcoal: #1F1A17;
+      --orobic-slate: #5E5048;
+      --orobic-eu-blue: #003399;
+    }
+
+    html { scroll-behavior: smooth; }
+    section[id] { scroll-margin-top: 100px; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--orobic-cream);
+      color: var(--orobic-charcoal);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    * { min-width: 0; }
+
+    .font-display { font-family: 'Fraunces', serif; }
+    .font-script  { font-family: 'Caveat', cursive; }
+
+    /* Header scroll state */
+    .site-header {
+      transition: background-color .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+    }
+    .site-header > div { transition: height .3s cubic-bezier(.2,.8,.2,1); }
+    .site-header.scrolled,
+    .site-header.menu-open {
+      background: rgba(255, 248, 240, 0.96);
+      backdrop-filter: saturate(140%) blur(12px);
+      box-shadow: 0 6px 24px -14px rgba(31,26,23,.2);
+    }
+    /* Shrink the bar on scroll */
+    .site-header.scrolled > div { height: 3.25rem !important; }
+    @media (min-width: 640px) {
+      .site-header.scrolled > div { height: 4rem !important; }
+    }
+    .site-header.scrolled .nav-link,
+    .site-header.scrolled .brand-text,
+    .site-header.scrolled #menuToggle,
+    .site-header.menu-open .brand-text,
+    .site-header.menu-open #menuToggle { color: var(--orobic-charcoal); }
+
+    .nav-link {
+      position: relative;
+      color: #fff;
+      font-weight: 500;
+    }
+    .nav-link::after {
+      content: "";
+      position: absolute; left: 0; bottom: -6px;
+      height: 2px; width: 0;
+      background: var(--orobic-orange);
+      transition: width .25s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Hero — Bergamo cityscape with a soft warm overlay so the photo
+       is clearly visible while headline text stays legible. */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background-color: #8bb4c9; /* sky-tone fallback */
+      background-image:
+        /* warm peach fade into the next section — expanded up the hero */
+        linear-gradient(180deg,
+          transparent 0%,
+          transparent 45%,
+          rgba(252,225,194,.12) 60%,
+          rgba(252,225,194,.3)  75%,
+          rgba(252,225,194,.65) 88%,
+          var(--orobic-cream)   100%),
+        url('assets/isaac-maffeis-EY6V1ji2j4c-unsplash.jpg'),
+        url('https://images.pexels.com/photos/1797161/pexels-photo-1797161.jpeg?auto=compress&cs=tinysrgb&w=1920');
+      background-size: cover;
+      background-position: center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 25% 55%, rgba(232,130,58,.28), transparent 60%),
+        linear-gradient(90deg, rgba(20,12,8,.35) 0%, rgba(20,12,8,.05) 55%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero-text {
+      position: relative;
+      color: #fff;
+      text-shadow:
+        0 1px 2px rgba(0,0,0,.7),
+        0 2px 14px rgba(0,0,0,.55);
+    }
+    .hero-script { color: var(--orobic-peach); }
+    .hero-text .accent {
+      color: var(--orobic-orange);
+      text-shadow:
+        0 1px 2px rgba(0,0,0,.6),
+        0 2px 18px rgba(232,130,58,.55);
+    }
+    @media (max-width: 640px) {
+      .hero { min-height: 100vh; }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 1.6rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+      white-space: nowrap;
+      font-size: .95rem;
+    }
+    @media (max-width: 480px) {
+      .btn { padding: .75rem 1.25rem; font-size: .9rem; }
+    }
+    .btn-primary {
+      background: var(--orobic-orange);
+      color: var(--orobic-charcoal);
+      box-shadow: 0 10px 25px -10px rgba(245,161,92,.7);
+    }
+    .btn-primary:hover {
+      background: var(--orobic-orange-dk);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    /* Hero primary: warm sunset — on-brand, 3D lit */
+    .btn-hero {
+      position: relative;
+      background: #E8823A;
+      color: #fff;
+      letter-spacing: -0.005em;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        0 8px 18px -6px rgba(60,20,0,.35),
+        0 1px 2px rgba(60,20,0,.2);
+      transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease, background .25s ease;
+    }
+    .btn-hero:hover {
+      background: #D26B22;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        0 14px 28px -6px rgba(60,20,0,.45),
+        0 2px 4px rgba(60,20,0,.25);
+    }
+    .btn-hero:active { transform: translateY(0); }
+    .btn-hero svg { transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+    .btn-hero:hover svg { transform: translateX(3px); }
+    /* Hero secondary: solid cream, reads clearly on the busy photo */
+    .btn-ghost {
+      background: rgba(255, 248, 240, 0.96);
+      color: var(--orobic-charcoal);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px -10px rgba(0,0,0,.35);
+    }
+    .btn-ghost:hover {
+      background: #ffffff;
+      color: var(--orobic-charcoal);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -10px rgba(0,0,0,.4);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--orobic-charcoal);
+      border: 1.5px solid var(--orobic-charcoal);
+    }
+    .btn-secondary:hover {
+      background: var(--orobic-charcoal);
+      color: var(--orobic-cream);
+    }
+
+    /* Section heading decoration */
+    .eyebrow {
+      font-family: 'Caveat', cursive;
+      font-size: 1.75rem;
+      color: var(--orobic-orange-dk);
+      line-height: 1;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--orobic-charcoal);
+    }
+
+    /* ====== CTA — editorial 3D ======
+       Deep brand-dark background, warm rim light, glass focal card,
+       cursor-tracked atmospherics, refined typographic hierarchy. */
+    .cta-wrap { perspective: 1800px; }
+
+    .cta-band {
+      --mx: 0;
+      --my: 0;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      padding: 4rem 2.25rem;
+      background:
+        radial-gradient(ellipse 90% 70% at 100% 100%, rgba(255,180,120,.35) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 0% 0%, rgba(255,210,160,.25) 0%, transparent 55%),
+        linear-gradient(165deg, #E8823A 0%, #D26B22 50%, #B45A18 100%);
+      border: 1px solid rgba(255,255,255,.06);
+      box-shadow:
+        0 40px 80px -28px rgba(140, 60, 10, .45),
+        0 12px 24px -14px rgba(140, 60, 10, .25),
+        inset 0 1px 0 rgba(255, 255, 255, .18);
+      transform-style: preserve-3d;
+    }
+    @media (min-width: 900px) {
+      .cta-band {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 3.5rem;
+        align-items: center;
+        padding: 5.5rem 4.5rem;
+        border-radius: 28px;
+      }
+    }
+    @media (max-width: 640px) {
+      .cta-band { padding: 2.75rem 1.5rem; border-radius: 18px; }
+    }
+
+    /* Cursor-tracked key light — the sole dynamic element */
+    .cta-band::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(
+        circle 640px at calc(50% + var(--mx) * 45%) calc(35% + var(--my) * 40%),
+        rgba(255, 200, 140, .22) 0%,
+        transparent 52%);
+      pointer-events: none;
+      transition: background .55s cubic-bezier(.2,.7,.2,1);
+      z-index: 0;
+    }
+
+    /* Fine grain — a premium touch that breaks gradient banding */
+    .cta-band::after {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      opacity: .25;
+      mix-blend-mode: overlay;
+      background-image:
+        repeating-radial-gradient(circle at 30% 20%, rgba(255,255,255,.05) 0 1px, transparent 1px 4px),
+        repeating-radial-gradient(circle at 70% 80%, rgba(255,255,255,.04) 0 1px, transparent 1px 3px);
+      z-index: 0;
+    }
+
+    .cta-content { position: relative; z-index: 2; max-width: 40rem; }
+
+    /* Eyebrow with a lit dot — small detail, big quality signal */
+    .cta-eyebrow {
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .4rem .8rem .4rem .55rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.85);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .cta-eyebrow .pulse {
+      position: relative;
+      width: 6px; height: 6px;
+      border-radius: 9999px;
+      background: #FFC488;
+      box-shadow: 0 0 12px rgba(255,196,136,.9);
+    }
+    .cta-eyebrow .pulse::after {
+      content: "";
+      position: absolute; inset: -4px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,196,136,.6);
+      animation: ctaPulse 2s ease-out infinite;
+    }
+    @keyframes ctaPulse {
+      0%   { transform: scale(.6); opacity: .9; }
+      100% { transform: scale(2);  opacity: 0;  }
+    }
+
+    /* Gradient accent on a single word in the headline */
+    .cta-accent {
+      background: linear-gradient(180deg, #FFD4A4 0%, #F5A15C 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-style: italic;
+    }
+
+    /* Fine-rule divider before the buttons */
+    .cta-rule {
+      display: block;
+      width: 56px; height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,.4), transparent);
+      margin: 2rem 0 1.75rem;
+    }
+
+    /* Sculptural glass focal card */
+    .cta-object {
+      position: relative;
+      z-index: 2;
+      width: 300px;
+      height: 380px;
+      margin-left: auto;
+      transform-style: preserve-3d;
+      transform:
+        rotateX(calc(var(--my) * -6deg))
+        rotateY(calc(var(--mx) * 10deg + 6deg))
+        translateZ(30px);
+      transition: transform .6s cubic-bezier(.2,.7,.2,1);
+    }
+    .cta-object-card {
+      position: absolute; inset: 0;
+      border-radius: 26px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.03) 50%, rgba(255,255,255,0) 100%);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.35),
+        inset 0 -1px 0 rgba(0,0,0,.15),
+        0 40px 80px -24px rgba(0,0,0,.55),
+        0 14px 28px -14px rgba(0,0,0,.35);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* Inner glow arc — high-gloss reflection */
+    .cta-object-card::before {
+      content: "";
+      position: absolute;
+      top: -40%; left: -30%;
+      width: 160%; height: 100%;
+      background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255,255,255,.22) 0%, transparent 60%);
+      pointer-events: none;
+      transform: rotate(-8deg);
+    }
+    .cta-object-chip {
+      position: relative;
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .4rem .75rem .4rem .5rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      align-self: flex-start;
+      transform: translateZ(25px);
+    }
+    .cta-object-chip .dot {
+      width: 6px; height: 6px; border-radius: 9999px;
+      background: #FFC488;
+      box-shadow: 0 0 8px rgba(255,196,136,.9);
+    }
+    .cta-object-quote {
+      position: relative;
+      margin-top: auto;
+      color: #fff;
+      transform: translateZ(35px);
+    }
+    .cta-object-qmark {
+      width: 32px; height: 32px;
+      color: rgba(255,255,255,.4);
+      margin-bottom: .5rem;
+    }
+    .cta-object-quote p {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 1.125rem;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .cta-object-footer {
+      position: relative;
+      display: flex; align-items: center; gap: .7rem;
+      margin-top: 1.1rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid rgba(255,255,255,.18);
+      transform: translateZ(25px);
+    }
+    .cta-object-avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #FFFFFF 0%, #FFD4A4 100%);
+      color: var(--orobic-orange-dk);
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: .75rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 4px 10px rgba(0,0,0,.2);
+      flex-shrink: 0;
+    }
+    .cta-object-name {
+      color: #fff;
+      font-weight: 600;
+      font-size: .85rem;
+      line-height: 1.2;
+    }
+    .cta-object-role {
+      color: rgba(255,255,255,.65);
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: .15rem;
+    }
+    @media (max-width: 899px) {
+      .cta-object {
+        width: 100%;
+        max-width: 420px;
+        height: auto;
+        margin: 2.75rem auto 0;
+      }
+      .cta-object-card { position: relative; inset: auto; }
+    }
+    @media (max-width: 640px) {
+      .cta-object-card { padding: 1.4rem; border-radius: 20px; }
+      .cta-object-quote p { font-size: 1rem; }
+    }
+
+    /* Buttons */
+    .btn-cta-primary, .btn-cta-secondary {
+      display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+      padding: .95rem 1.75rem;
+      border-radius: 9999px;
+      font-weight: 600; font-size: .95rem;
+      white-space: nowrap;
+      transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease, background .25s ease, color .25s ease;
+    }
+    .btn-cta-primary {
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFF1DE 100%);
+      color: var(--orobic-charcoal);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -1px 0 rgba(232,130,58,.2),
+        0 8px 20px -6px rgba(0,0,0,.4),
+        0 2px 4px rgba(0,0,0,.15);
+    }
+    .btn-cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -1px 0 rgba(232,130,58,.3),
+        0 14px 30px -6px rgba(0,0,0,.5),
+        0 4px 8px rgba(0,0,0,.25);
+    }
+    .btn-cta-primary svg { transition: transform .25s ease; }
+    .btn-cta-primary:hover svg { transform: translateX(3px); }
+    .btn-cta-primary:active { transform: translateY(0); }
+
+    .btn-cta-secondary {
+      color: #fff;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.22);
+    }
+    .btn-cta-secondary:hover {
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.55);
+      transform: translateY(-2px);
+    }
+    .btn-cta-secondary:active { transform: translateY(0); }
+
+    @media (max-width: 640px) {
+      .btn-cta-primary, .btn-cta-secondary {
+        padding: .9rem 1.4rem;
+        font-size: .9rem;
+        width: 100%;
+      }
+    }
+
+    /* Cards */
+    .soft-card {
+      background: #fff;
+      border-radius: 1.25rem;
+      box-shadow: 0 10px 40px -20px rgba(31,26,23,.18);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .soft-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 50px -20px rgba(31,26,23,.25);
+    }
+
+    /* ===== Projects carousel — swipe/drag with 3D depth ===== */
+    .projects-carousel {
+      position: relative;
+      perspective: 1400px;
+      margin: 0 -1.25rem; /* bleed slightly past section padding */
+      padding: 1rem 1.25rem 2rem;
+    }
+    .projects-track {
+      display: flex;
+      gap: 1.25rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 1rem .5rem 2rem;
+      scrollbar-width: none;            /* Firefox */
+      -ms-overflow-style: none;         /* Edge legacy */
+      transform-style: preserve-3d;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: pan-y;              /* allow vertical scroll, capture horizontal */
+    }
+    .projects-track::-webkit-scrollbar { display: none; }
+    .projects-track.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    /* Each card: fixed width, snap center, 3D transforms */
+    .projects-track .project-card {
+      flex: 0 0 78%;
+      max-width: 380px;
+      scroll-snap-align: center;
+      transform-origin: center center;
+      transform-style: preserve-3d;
+      transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease, opacity .45s ease;
+      will-change: transform;
+    }
+    @media (min-width: 640px) {
+      .projects-track .project-card { flex-basis: 52%; }
+    }
+    @media (min-width: 900px) {
+      .projects-track .project-card { flex-basis: 38%; }
+    }
+    @media (min-width: 1200px) {
+      .projects-carousel { margin: 0; padding: 1rem 0 2rem; }
+      .projects-track    { padding: 1rem 0 2rem; gap: 1.75rem; }
+      .projects-track .project-card { flex-basis: 30%; }
+    }
+
+    /* Side cards fade + tilt slightly */
+    .projects-track .project-card[data-pos="far-left"]  { transform: translate3d(0,0,-120px) rotateY( 18deg) scale(.88); opacity: .5; }
+    .projects-track .project-card[data-pos="left"]      { transform: translate3d(0,0, -60px) rotateY( 10deg) scale(.94); opacity: .75; }
+    .projects-track .project-card[data-pos="center"]    { transform: translate3d(0,0,  20px) rotateY(  0deg) scale(1);    opacity: 1;   box-shadow: 0 30px 60px -24px rgba(31,26,23,.3); }
+    .projects-track .project-card[data-pos="right"]     { transform: translate3d(0,0, -60px) rotateY(-10deg) scale(.94); opacity: .75; }
+    .projects-track .project-card[data-pos="far-right"] { transform: translate3d(0,0,-120px) rotateY(-18deg) scale(.88); opacity: .5; }
+
+    /* ===== Controls: arrows + dot indicators ===== */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      border-radius: 9999px;
+      background: #fff;
+      color: var(--orobic-charcoal);
+      border: 1px solid rgba(31,26,23,.08);
+      display: none;
+      align-items: center; justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      box-shadow: 0 10px 24px -10px rgba(31,26,23,.3);
+      transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+    .carousel-arrow:hover {
+      background: var(--orobic-orange);
+      color: #fff;
+      transform: translateY(-50%) scale(1.08);
+    }
+    .carousel-arrow:active { transform: translateY(-50%) scale(.96); }
+    .carousel-arrow:disabled { opacity: .35; cursor: not-allowed; transform: translateY(-50%); }
+    .carousel-arrow svg { width: 18px; height: 18px; }
+    .carousel-arrow.prev { left: -8px; }
+    .carousel-arrow.next { right: -8px; }
+    @media (min-width: 900px) {
+      .carousel-arrow { display: inline-flex; }
+      .carousel-arrow.prev { left: -24px; }
+      .carousel-arrow.next { right: -24px; }
+    }
+
+    /* Dots for jumping to a card */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: .55rem;
+      margin-top: 1rem;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 9999px;
+      background: rgba(31,26,23,.2);
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      transition: width .3s cubic-bezier(.2,.8,.2,1), background .3s ease;
+    }
+    .carousel-dot.is-active {
+      width: 26px;
+      background: var(--orobic-orange);
+    }
+    .carousel-dot:hover:not(.is-active) { background: rgba(31,26,23,.35); }
+
+    /* Swipe hint on mobile — fades out after first interaction */
+    .swipe-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-top: .75rem;
+      font-size: .75rem;
+      color: var(--orobic-slate);
+      opacity: .6;
+      transition: opacity .4s ease;
+    }
+    .swipe-hint.is-hidden { opacity: 0; pointer-events: none; }
+    @media (min-width: 900px) { .swipe-hint { display: none; } }
+    .project-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 15px 40px -20px rgba(31,26,23,.2);
+      display: flex; flex-direction: column;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 60px -20px rgba(31,26,23,.3);
+    }
+    .project-thumb {
+      position: relative;
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--orobic-peach);
+    }
+    .project-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+    .project-card:hover .project-thumb img { transform: scale(1.06); }
+    .project-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end; justify-content: flex-start;
+      padding: 1.25rem;
+      background: linear-gradient(180deg, transparent 40%, rgba(31,26,23,.7) 100%);
+      color: #fff;
+      font-weight: 600;
+      opacity: 0; transition: opacity .3s ease;
+    }
+    .project-card:hover .project-overlay { opacity: 1; }
+    .project-body {
+      padding: 1.5rem 1.5rem 1.75rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      flex: 1;
+    }
+    .project-tag {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--orobic-orange-dk);
+      background: var(--orobic-peach);
+      padding: .25rem .75rem;
+      border-radius: 9999px;
+      align-self: flex-start;
+    }
+    .project-actions {
+      margin-top: auto;
+      display: flex; gap: .6rem; flex-wrap: wrap;
+      padding-top: .75rem;
+    }
+    .project-actions .btn {
+      padding: .6rem 1.1rem;
+      font-size: .9rem;
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Mobile menu — fixed overlay below the header. Opaque, no blur. */
+    #mobileMenu.mobile-menu {
+      position: fixed;
+      top: 4rem;            /* matches mobile header height */
+      left: 0;
+      right: 0;
+      z-index: 60;
+      background: #FFF8F0;
+      border-top: 1px solid var(--orobic-peach);
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+      box-shadow: 0 20px 40px -20px rgba(31,26,23,.25);
+    }
+    #mobileMenu.mobile-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+      transition: opacity .25s ease, transform .25s ease, visibility 0s;
+    }
+    /* Snap menu position to the shrunk header when scrolled */
+    .site-header.scrolled ~ #mobileMenu.mobile-menu {
+      top: 3.25rem;
+    }
+
+    /* Team portraits */
+    .team-portrait {
+      width: 100%;
+      aspect-ratio: 4 / 5;           /* portrait-friendly */
+      border-radius: 1.25rem;
+      object-fit: cover;
+      object-position: center top;   /* keep faces in frame */
+      background: var(--orobic-peach);
+    }
+    @media (min-width: 640px) {
+      .team-portrait { aspect-ratio: 1 / 1; }
+    }
+
+    /* Decorative divider */
+    .divider-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 9999px;
+      background: var(--orobic-orange);
+      margin: 0 .75rem;
+      vertical-align: middle;
+    }
+
+    /* EU "Funded by" lock-up */
+    .eu-funded-img {
+      height: 220px; width: auto;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,.45));
+      margin: -40px 0 -30px -12px;   /* absorb PNG padding, similar to brand logo */
+    }
+    @media (max-width: 640px) {
+      .eu-funded-img { height: 160px; margin: -30px 0 -20px -6px; }
+    }
+
+    /* EU logo sitting beside the brand logo in the header */
+    .brand-eu {
+      height: 220px; width: auto;
+      margin: -50px 0;
+      transition:
+        opacity .3s ease,
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        filter .3s ease;
+      filter: drop-shadow(0 3px 12px rgba(0,0,0,.4));
+      transform-origin: left center;
+    }
+    /* Shrink the EU logo on tablet-ish widths so it fits next to the nav */
+    @media (max-width: 1100px) { .brand-eu { height: 170px; margin: -38px 0; } }
+    @media (max-width: 900px)  { .brand-eu { height: 140px; margin: -30px 0; } }
+    /* On scroll: fade out the EU logo gracefully */
+    .site-header.scrolled .brand-eu {
+      opacity: 0;
+      transform: translateX(-12px) scale(.92);
+      pointer-events: none;
+    }
+    /* When mobile menu is open (cream bg), keep it visible but inverted */
+    .site-header.menu-open .brand-eu {
+      filter: invert(1) brightness(0.15);
+    }
+
+    /* Brand logo (white-on-transparent PNG). Dark version is the same file
+       but color-inverted via CSS filter, so it stays readable when the
+       header turns cream on scroll / when the mobile menu is open.
+       The PNG has significant transparent padding around the artwork, so
+       we use larger pixel heights to compensate. */
+    .brand-logo {
+      height: 220px; width: auto;
+      margin: -50px 0;                 /* absorb PNG padding without inflating the header */
+      transition: filter .3s ease, height .3s cubic-bezier(.2,.8,.2,1), margin .3s cubic-bezier(.2,.8,.2,1);
+      filter: drop-shadow(0 3px 14px rgba(0,0,0,.4));
+    }
+    @media (max-width: 640px) {
+      .brand-logo { height: 110px; margin: -26px 0; }
+    }
+    /* Shrink on scroll */
+    .site-header.scrolled .brand-logo {
+      height: 120px;
+      margin: -26px 0;
+      filter: invert(1) brightness(0.15);
+    }
+    @media (max-width: 640px) {
+      .site-header.scrolled .brand-logo { height: 80px; margin: -16px 0; }
+    }
+    .site-header.menu-open .brand-logo {
+      filter: invert(1) brightness(0.15);
+    }
+
+    /* ====== Liquid-glass language switcher ====== */
+    .lang-switch {
+      position: relative;
+      display: inline-flex;
+      padding: 4px;
+      border-radius: 9999px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,.08) 100%);
+      border: 1px solid rgba(255,255,255,.3);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.45),
+        inset 0 -1px 0 rgba(0,0,0,.08),
+        0 4px 14px rgba(0,0,0,.12),
+        0 1px 2px rgba(0,0,0,.08);
+      transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
+      overflow: hidden;
+    }
+    /* Refractive top gloss */
+    .lang-switch::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      border-radius: 9999px 9999px 0 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.35) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* On scroll / cream bg: glass inverts to dark */
+    .site-header.scrolled .lang-switch,
+    .site-header.menu-open .lang-switch {
+      background: linear-gradient(180deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,.3) 100%);
+      border-color: rgba(31,26,23,.1);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -1px 0 rgba(0,0,0,.04),
+        0 3px 10px rgba(31,26,23,.1),
+        0 1px 2px rgba(31,26,23,.06);
+    }
+
+    .lang-btn {
+      position: relative;
+      z-index: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 30px;
+      border-radius: 9999px;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
+      opacity: .7;
+    }
+    .lang-btn svg {
+      width: 22px; height: 15px;
+      display: block;
+      border-radius: 3px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.15);
+      transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    }
+    .lang-btn:hover { opacity: 1; }
+    .lang-btn:hover svg { transform: scale(1.08); }
+
+    /* Active: glass pill lifts the flag */
+    .lang-btn.active {
+      opacity: 1;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.35) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -1px 0 rgba(0,0,0,.06),
+        0 2px 6px rgba(0,0,0,.15),
+        0 1px 2px rgba(0,0,0,.08);
+    }
+    .site-header.scrolled .lang-btn.active,
+    .site-header.menu-open .lang-btn.active {
+      background: #fff;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        0 2px 8px rgba(31,26,23,.15);
+    }
+
+    /* Footer variant — deep liquid glass on dark */
+    .lang-switch-footer {
+      background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 100%);
+      border-color: rgba(255,255,255,.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.15),
+        inset 0 -1px 0 rgba(0,0,0,.2),
+        0 4px 12px rgba(0,0,0,.25);
+    }
+    .lang-switch-footer::before {
+      background: linear-gradient(180deg, rgba(255,255,255,.12) 0%, transparent 100%);
+    }
+    .lang-switch-footer .lang-btn { opacity: .65; }
+    .lang-switch-footer .lang-btn:hover { opacity: 1; }
+    .lang-switch-footer .lang-btn.active {
+      opacity: 1;
+      background: linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,.08) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.3),
+        0 2px 8px rgba(0,0,0,.25);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header id="siteHeader" class="site-header fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-32">
+      <div class="flex items-center gap-2 sm:gap-4">
+        <a href="#home" class="flex items-center" aria-label="Orobic Youth home">
+          <img src="assets/logo.png" alt="Orobic Youth" class="brand-logo" />
+        </a>
+        <div class="hidden sm:block h-10 w-px bg-white/30"></div>
+        <img src="assets/eu-funded.png" alt="Funded by the European Union" class="brand-eu hidden sm:block" />
+      </div>
+
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="#home" class="nav-link" data-en="Home" data-it="Home">Home</a>
+        <a href="#about" class="nav-link" data-en="About" data-it="Chi siamo">About</a>
+        <a href="#projects" class="nav-link" data-en="Projects" data-it="Progetti">Projects</a>
+        <a href="#impact" class="nav-link" data-en="Impact" data-it="Impatto">Impact</a>
+        <a href="#team" class="nav-link" data-en="Team" data-it="Team">Team</a>
+        <a href="#contact" class="nav-link" data-en="Contact" data-it="Contatti">Contact</a>
+
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button class="lang-btn" data-lang="it" aria-label="Italiano">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="1" height="2" fill="#008C45"/><rect x="1" width="1" height="2" fill="#F4F5F0"/><rect x="2" width="1" height="2" fill="#CD212A"/></svg>
+          </button>
+          <button class="lang-btn" data-lang="en" aria-label="English">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#s)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>
+          </button>
+        </div>
+
+        <a href="#join" class="btn btn-primary !py-2 !px-5 text-sm" data-en="Get Involved" data-it="Partecipa">Get Involved</a>
+      </nav>
+
+      <div class="lg:hidden flex items-center gap-2">
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button class="lang-btn" data-lang="it" aria-label="Italiano">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="1" height="2" fill="#008C45"/><rect x="1" width="1" height="2" fill="#F4F5F0"/><rect x="2" width="1" height="2" fill="#CD212A"/></svg>
+          </button>
+          <button class="lang-btn" data-lang="en" aria-label="English">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><clipPath id="s2"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="t2"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#s2)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t2)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>
+          </button>
+        </div>
+        <button id="menuToggle" class="text-white p-2" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- Mobile menu — outside <header> so it's not affected by the header's
+       blur/background stacking context. Positioned fixed, its own layer. -->
+  <div id="mobileMenu" class="mobile-menu lg:hidden">
+    <nav class="px-5 py-5 flex flex-col gap-3">
+      <a href="#home" class="py-2 text-orobic-charcoal font-medium" data-en="Home" data-it="Home">Home</a>
+      <a href="#about" class="py-2 text-orobic-charcoal font-medium" data-en="About" data-it="Chi siamo">About</a>
+      <a href="#projects" class="py-2 text-orobic-charcoal font-medium" data-en="Projects" data-it="Progetti">Projects</a>
+      <a href="#impact" class="py-2 text-orobic-charcoal font-medium" data-en="Impact" data-it="Impatto">Impact</a>
+      <a href="#team" class="py-2 text-orobic-charcoal font-medium" data-en="Team" data-it="Team">Team</a>
+      <a href="#contact" class="py-2 text-orobic-charcoal font-medium" data-en="Contact" data-it="Contatti">Contact</a>
+      <a href="#join" class="btn btn-primary justify-center mt-2" data-en="Get Involved" data-it="Partecipa">Get Involved</a>
+    </nav>
+  </div>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section id="home" class="hero flex items-center">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-24 pb-16 sm:pt-40 sm:pb-24 w-full">
+      <div class="max-w-3xl">
+        <p class="font-script text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3 reveal hero-text hero-script">Orobic Youth</p>
+        <h1 class="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight reveal break-words hero-text">
+          <span data-en="Empowering Youth," data-it="Dare voce ai giovani,">Empowering Youth,</span><br />
+          <span class="accent" data-en="Shaping the Future." data-it="Costruire il futuro.">Shaping the Future.</span>
+        </h1>
+        <p class="mt-5 sm:mt-6 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed reveal hero-text font-medium"
+           data-en="We create opportunities for young people in Bergamo and across Europe to be active, gain skills, and drive positive social change."
+           data-it="Creiamo opportunità per i giovani di Bergamo e di tutta Europa: per essere protagonisti, acquisire competenze e guidare un cambiamento sociale positivo.">
+          We create opportunities for young people in Bergamo and across Europe
+          to be active, gain skills, and drive positive social change.
+        </p>
+        <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 reveal">
+          <a href="#projects" class="btn btn-hero justify-center sm:justify-start">
+            <span data-en="Explore Our Projects" data-it="Scopri i progetti">Explore Our Projects</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+          <a href="#join" class="btn btn-ghost justify-center sm:justify-start" data-en="Get Involved" data-it="Partecipa">Get Involved</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT
+       ============================================================ -->
+  <section id="about" class="py-16 sm:py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10 sm:mb-14 reveal">
+        <p class="eyebrow" data-en="Who we are" data-it="Chi siamo">Who we are</p>
+        <h2 class="section-title text-3xl sm:text-4xl md:text-5xl mt-2"
+            data-en="Young people, shaping their own communities."
+            data-it="Giovani che danno forma alla propria comunità.">
+          Young people, shaping<br class="hidden sm:inline" /> their own communities.
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <article class="soft-card p-8 reveal">
+          <div class="w-12 h-12 rounded-xl bg-orobic-peach flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-4-4h-1m-7 6H2v-2a4 4 0 014-4h1m4-6a4 4 0 11-8 0 4 4 0 018 0zm9 0a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+          </div>
+          <h3 class="font-display font-bold text-2xl mb-3" data-en="Who We Are" data-it="Chi siamo">Who We Are</h3>
+          <p class="text-orobic-slate leading-relaxed"
+             data-en="Orobic Youth stands for energy, innovation, and active engagement. We are a youth NGO composed of young professionals and students from Bergamo, acting as social entrepreneurs with a strong passion for social purposes."
+             data-it="Orobic Youth è sinonimo di energia, innovazione e impegno attivo. Siamo un'associazione giovanile formata da giovani professionisti e studenti bergamaschi, imprenditori sociali con una forte passione per il cambiamento.">
+            Orobic Youth stands for energy, innovation, and active engagement.
+            We are a youth NGO composed of young professionals and students
+            from Bergamo, acting as social entrepreneurs with a strong passion
+            for social purposes.
+          </p>
+        </article>
+
+        <article class="soft-card p-8 reveal">
+          <div class="w-12 h-12 rounded-xl bg-orobic-peach flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          </div>
+          <h3 class="font-display font-bold text-2xl mb-3" data-en="Our Mission" data-it="La nostra missione">Our Mission</h3>
+          <p class="text-orobic-slate leading-relaxed"
+             data-en="To enrich the educational, social, and cultural life of young people in our community, particularly those with fewer opportunities. We believe young people must be the driving force in shaping society."
+             data-it="Arricchire la vita educativa, sociale e culturale dei giovani della nostra comunità, in particolare di chi ha meno opportunità. Crediamo che i giovani debbano essere il motore della società.">
+            To enrich the educational, social, and cultural life of young
+            people in our community, particularly those with fewer
+            opportunities. We believe young people must be the driving force
+            in shaping society.
+          </p>
+        </article>
+
+        <article class="soft-card p-8 reveal">
+          <div class="w-12 h-12 rounded-xl bg-orobic-peach flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+          </div>
+          <h3 class="font-display font-bold text-2xl mb-3" data-en="Our Objectives" data-it="I nostri obiettivi">Our Objectives</h3>
+          <ul class="text-orobic-slate leading-relaxed space-y-2 text-sm">
+            <li data-en="· Promote youth mobility and intercultural exchange" data-it="· Promuovere la mobilità giovanile e lo scambio interculturale">· Promote youth mobility and intercultural exchange</li>
+            <li data-en="· Encourage youth employment and entrepreneurship" data-it="· Incoraggiare l'occupazione giovanile e l'imprenditoria">· Encourage youth employment and entrepreneurship</li>
+            <li data-en="· Foster active citizenship and equal opportunities" data-it="· Favorire la cittadinanza attiva e le pari opportunità">· Foster active citizenship and equal opportunities</li>
+            <li data-en="· Integrate minorities and build international networks" data-it="· Integrare le minoranze e costruire reti internazionali">· Integrate minorities and build international networks</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ========== PROJECTS CAROUSEL ==========
+       HOW TO ADD A NEW PROJECT:
+       1. Inside .projects-track below, copy one full project-card article
+          (the ones marked FROM AWARENESS, ECO-RESILIENCE, or ROOTS IN MOTION).
+       2. Change four things on the copy:
+            - data-project-link  -> your Canva URL
+            - data-join-link     -> email/form link for joining
+            - <img src="...">    -> thumbnail (e.g. assets/yourfile.jpg)
+            - <h3> and <p>       -> title and description (update BOTH
+              the text AND the matching data-en / data-it attributes)
+       The buttons auto-wire from data-* via JS. The new card is added to
+       the carousel automatically — pagination dots update themselves.
+       ============================================================ -->
+  <section id="projects" class="py-16 sm:py-24 lg:py-32 bg-orobic-peach/40">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14 reveal">
+        <div class="max-w-2xl">
+          <p class="eyebrow" data-en="Upcoming projects" data-it="Prossimi progetti">Upcoming projects</p>
+          <h2 class="section-title text-3xl sm:text-4xl md:text-5xl mt-2"
+              data-en="Our upcoming projects — come be part of them."
+              data-it="I nostri prossimi progetti — vieni a farne parte.">
+            Our upcoming projects —<br class="hidden sm:inline" /> come be part of them.
+          </h2>
+        </div>
+        <p class="text-orobic-slate md:max-w-sm"
+           data-en="Click any thumbnail to view the full project on Canva. If something sparks your curiosity, use Join This Project and we'll get back to you."
+           data-it="Clicca su un'anteprima per vedere il progetto su Canva. Se qualcosa ti incuriosisce, usa “Partecipa al progetto” e ti ricontatteremo.">
+          Click any thumbnail to view the full project on Canva.
+          If something sparks your curiosity, use <em>Join This Project</em>
+          and we'll get back to you.
+        </p>
+      </div>
+
+      <div class="projects-carousel">
+        <button type="button" class="carousel-arrow prev" id="carouselPrev" aria-label="Previous project">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button type="button" class="carousel-arrow next" id="carouselNext" aria-label="Next project">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <div class="projects-track" id="projectsTrack">
+
+        <!-- ========== FROM AWARENESS TO ACTION ========== -->
+        <article class="project-card reveal"
+                 data-project-link="https://www.canva.com/design/REPLACE-WITH-YOUR-LINK"
+                 data-join-link="mailto:orobicyouth@gmail.com?subject=Join%20%22From%20Awareness%20to%20Action%22">
+          <a class="project-thumb" href="#" target="_blank" rel="noopener">
+            <img src="assets/1.png" alt="From Awareness to Action — Erasmus+ Youth Exchange, Bergamo October 2026" />
+            <span class="project-overlay" data-en="View Project →" data-it="Scopri il progetto →">View Project →</span>
+          </a>
+          <div class="project-body">
+            <span class="project-tag">Erasmus+ · Oct 2026</span>
+            <h3 class="font-display font-bold text-xl leading-snug"
+                data-en="From Awareness to Action"
+                data-it="From Awareness to Action">From Awareness to Action</h3>
+            <p class="text-orobic-slate text-sm leading-relaxed"
+               data-en="Youth Exchange transforming automation anxiety into digital agency. Bergamo, 20–26 October 2026 — with partners from Bulgaria, Romania, Italy, Türkiye and Serbia."
+               data-it="Youth Exchange per trasformare l'ansia da automazione in competenza digitale attiva. Bergamo, 20–26 ottobre 2026 — con partner da Bulgaria, Romania, Italia, Türkiye e Serbia.">
+              Youth Exchange transforming automation anxiety into digital agency.
+              Bergamo, 20–26 October 2026 — with partners from Bulgaria,
+              Romania, Italy, Türkiye and Serbia.
+            </p>
+            <div class="project-actions">
+              <a class="btn btn-primary project-view" href="#" target="_blank" rel="noopener" data-en="View Project" data-it="Scopri il progetto">View Project</a>
+              <a class="btn btn-secondary project-join" href="#" data-en="Join This Project" data-it="Partecipa al progetto">Join This Project</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ========== ECO-RESILIENCE ========== -->
+        <article class="project-card reveal"
+                 data-project-link="https://www.canva.com/design/REPLACE-WITH-YOUR-LINK"
+                 data-join-link="mailto:orobicyouth@gmail.com?subject=Join%20%22Eco-Resilience%22">
+          <a class="project-thumb" href="#" target="_blank" rel="noopener">
+            <img src="assets/2.png" alt="Eco-Resilience: The Inner and Outer Landscape — Lake Iseo, September 2026" />
+            <span class="project-overlay" data-en="View Project →" data-it="Scopri il progetto →">View Project →</span>
+          </a>
+          <div class="project-body">
+            <span class="project-tag">Erasmus+ · Sep 2026</span>
+            <h3 class="font-display font-bold text-xl leading-snug"
+                data-en="Eco-Resilience: The Inner and Outer Landscape"
+                data-it="Eco-Resilience: The Inner and Outer Landscape">Eco-Resilience: The Inner and Outer Landscape</h3>
+            <p class="text-orobic-slate text-sm leading-relaxed"
+               data-en="Youth Exchange on ecological resilience and wellbeing at Lake Iseo (Bergamo), 8–14 September 2026 — with partners from Bulgaria, Romania, Italy, Georgia and Ukraine."
+               data-it="Youth Exchange sulla resilienza ecologica e il benessere al Lago d'Iseo (Bergamo), 8–14 settembre 2026 — con partner da Bulgaria, Romania, Italia, Georgia e Ucraina.">
+              Youth Exchange on ecological resilience and wellbeing at Lake
+              Iseo (Bergamo), 8–14 September 2026 — with partners from
+              Bulgaria, Romania, Italy, Georgia and Ukraine.
+            </p>
+            <div class="project-actions">
+              <a class="btn btn-primary project-view" href="#" target="_blank" rel="noopener" data-en="View Project" data-it="Scopri il progetto">View Project</a>
+              <a class="btn btn-secondary project-join" href="#" data-en="Join This Project" data-it="Partecipa al progetto">Join This Project</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ========== ROOTS IN MOTION ========== -->
+        <article class="project-card reveal"
+                 data-project-link="https://www.canva.com/design/REPLACE-WITH-YOUR-LINK"
+                 data-join-link="mailto:orobicyouth@gmail.com?subject=Join%20%22Roots%20in%20Motion%22">
+          <a class="project-thumb" href="#" target="_blank" rel="noopener">
+            <img src="assets/3.png" alt="Roots in Motion — Erasmus+ Youth Exchange (KA152-YOU), Bergamo October 2026" />
+            <span class="project-overlay" data-en="View Project →" data-it="Scopri il progetto →">View Project →</span>
+          </a>
+          <div class="project-body">
+            <span class="project-tag">Erasmus+ KA152 · Oct 2026</span>
+            <h3 class="font-display font-bold text-xl leading-snug"
+                data-en="Roots in Motion"
+                data-it="Roots in Motion">Roots in Motion</h3>
+            <p class="text-orobic-slate text-sm leading-relaxed"
+               data-en="Erasmus+ Youth Exchange (KA152-YOU) exploring identity, heritage and belonging. Bergamo, 6–12 October 2026."
+               data-it="Youth Exchange Erasmus+ (KA152-YOU) su identità, radici e appartenenza. Bergamo, 6–12 ottobre 2026.">
+              Erasmus+ Youth Exchange (KA152-YOU) exploring identity, heritage
+              and belonging. Bergamo, 6–12 October 2026.
+            </p>
+            <div class="project-actions">
+              <a class="btn btn-primary project-view" href="#" target="_blank" rel="noopener" data-en="View Project" data-it="Scopri il progetto">View Project</a>
+              <a class="btn btn-secondary project-join" href="#" data-en="Join This Project" data-it="Partecipa al progetto">Join This Project</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ========== PLACEHOLDER CARD #1 (remove when not needed) ========== -->
+        <article class="project-card reveal"
+                 data-project-link="https://www.canva.com/design/REPLACE-WITH-YOUR-LINK"
+                 data-join-link="mailto:orobicyouth@gmail.com?subject=Join%20Orobic%20Youth%20Project%20%231">
+          <a class="project-thumb" href="#" target="_blank" rel="noopener">
+            <!-- REPLACE: photo — project thumbnail -->
+            <img src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=900&q=80" alt="Project thumbnail" />
+            <span class="project-overlay" data-en="View Project →" data-it="Scopri il progetto →">View Project →</span>
+          </a>
+          <div class="project-body">
+            <span class="project-tag">Erasmus+ · 2026</span>
+            <h3 class="font-display font-bold text-xl leading-snug"
+                data-en="Youth Exchange: Voices of Europe"
+                data-it="Scambio giovanile: Voci d'Europa">Youth Exchange: Voices of Europe</h3>
+            <p class="text-orobic-slate text-sm leading-relaxed"
+               data-en="A 10-day exchange in Bergamo bringing together young Europeans to explore identity, belonging, and civic engagement through non-formal workshops."
+               data-it="Uno scambio di 10 giorni a Bergamo che riunisce giovani europei per esplorare identità, appartenenza e cittadinanza attiva attraverso workshop di educazione non formale.">
+              A 10-day exchange in Bergamo bringing together young Europeans
+              to explore identity, belonging, and civic engagement through
+              non-formal workshops.
+            </p>
+            <div class="project-actions">
+              <a class="btn btn-primary project-view" href="#" target="_blank" rel="noopener" data-en="View Project" data-it="Scopri il progetto">View Project</a>
+              <a class="btn btn-secondary project-join" href="#" data-en="Join This Project" data-it="Partecipa al progetto">Join This Project</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ========== PROJECT CARD #2 ========== -->
+        <article class="project-card reveal"
+                 data-project-link="https://www.canva.com/design/REPLACE-WITH-YOUR-LINK"
+                 data-join-link="mailto:orobicyouth@gmail.com?subject=Join%20Orobic%20Youth%20Project%20%232">
+          <a class="project-thumb" href="#" target="_blank" rel="noopener">
+            <!-- REPLACE: photo — project thumbnail -->
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80" alt="Project thumbnail" />
+            <span class="project-overlay" data-en="View Project →" data-it="Scopri il progetto →">View Project →</span>
+          </a>
+          <div class="project-body">
+            <span class="project-tag" data-en="Training course" data-it="Corso di formazione">Training course</span>
+            <h3 class="font-display font-bold text-xl leading-snug"
+                data-en="Leadership Lab for Young Changemakers"
+                data-it="Leadership Lab per giovani changemaker">Leadership Lab for Young Changemakers</h3>
+            <p class="text-orobic-slate text-sm leading-relaxed"
+               data-en="A capacity-building programme for youth workers and student leaders — practical tools for facilitation, project design, and inclusive leadership."
+               data-it="Un programma di capacity building per youth worker e studenti con ruoli di responsabilità: strumenti pratici per la facilitazione, la progettazione e la leadership inclusiva.">
+              A capacity-building programme for youth workers and student
+              leaders — practical tools for facilitation, project design, and
+              inclusive leadership.
+            </p>
+            <div class="project-actions">
+              <a class="btn btn-primary project-view" href="#" target="_blank" rel="noopener" data-en="View Project" data-it="Scopri il progetto">View Project</a>
+              <a class="btn btn-secondary project-join" href="#" data-en="Join This Project" data-it="Partecipa al progetto">Join This Project</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ========== PROJECT CARD #3 ========== -->
+        <article class="project-card reveal"
+                 data-project-link="https://www.canva.com/design/REPLACE-WITH-YOUR-LINK"
+                 data-join-link="mailto:orobicyouth@gmail.com?subject=Join%20Orobic%20Youth%20Project%20%233">
+          <a class="project-thumb" href="#" target="_blank" rel="noopener">
+            <!-- REPLACE: photo — project thumbnail -->
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=80" alt="Project thumbnail" />
+            <span class="project-overlay" data-en="View Project →" data-it="Scopri il progetto →">View Project →</span>
+          </a>
+          <div class="project-body">
+            <span class="project-tag" data-en="Local initiative" data-it="Iniziativa locale">Local initiative</span>
+            <h3 class="font-display font-bold text-xl leading-snug"
+                data-en="Bergamo Community Action Week"
+                data-it="Settimana di azione comunitaria a Bergamo">Bergamo Community Action Week</h3>
+            <p class="text-orobic-slate text-sm leading-relaxed"
+               data-en="A week of youth-led neighbourhood initiatives — from community gardens to intercultural dinners — designed and delivered by local young people."
+               data-it="Una settimana di iniziative di quartiere guidate dai giovani — dagli orti comunitari alle cene interculturali — pensate e realizzate dai giovani del territorio.">
+              A week of youth-led neighbourhood initiatives — from community
+              gardens to intercultural dinners — designed and delivered by
+              local young people.
+            </p>
+            <div class="project-actions">
+              <a class="btn btn-primary project-view" href="#" target="_blank" rel="noopener" data-en="View Project" data-it="Scopri il progetto">View Project</a>
+              <a class="btn btn-secondary project-join" href="#" data-en="Join This Project" data-it="Partecipa al progetto">Join This Project</a>
+            </div>
+          </div>
+        </article>
+
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div class="carousel-dots" id="carouselDots"></div>
+        <span class="swipe-hint" id="swipeHint" data-en="← swipe to explore →" data-it="← scorri per esplorare →">← scorri per esplorare →</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       IMPACT & ACTIVITIES
+       ============================================================ -->
+  <section id="impact" class="py-16 sm:py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10 sm:mb-14 reveal">
+        <p class="eyebrow" data-en="Our impact" data-it="Il nostro impatto">Our impact</p>
+        <h2 class="section-title text-3xl sm:text-4xl md:text-5xl mt-2"
+            data-en="What we do, day by day."
+            data-it="Cosa facciamo, giorno dopo giorno.">
+          What we do, day by day.
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        <div class="soft-card p-7 reveal">
+          <div class="w-14 h-14 rounded-2xl bg-orobic-peach flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-2" data-en="Non-Formal Education" data-it="Educazione non formale">Non-Formal Education</h3>
+          <p class="text-orobic-slate text-sm leading-relaxed"
+             data-en="Interactive workshops developing communication, leadership, and creative thinking."
+             data-it="Workshop interattivi per sviluppare competenze di comunicazione, leadership e pensiero creativo.">Interactive workshops developing communication, leadership, and creative thinking.</p>
+        </div>
+
+        <div class="soft-card p-7 reveal">
+          <div class="w-14 h-14 rounded-2xl bg-orobic-peach flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m10-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 3a3 3 0 11-6 0 3 3 0 016 0zM7 10a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-2" data-en="Community Engagement" data-it="Impegno comunitario">Community Engagement</h3>
+          <p class="text-orobic-slate text-sm leading-relaxed"
+             data-en="Empowering youth to plan and implement local initiatives that respond to community needs."
+             data-it="Diamo ai giovani gli strumenti per progettare e realizzare iniziative locali che rispondano ai bisogni della comunità.">Empowering youth to plan and implement local initiatives that respond to community needs.</p>
+        </div>
+
+        <div class="soft-card p-7 reveal">
+          <div class="w-14 h-14 rounded-2xl bg-orobic-peach flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-2" data-en="Intercultural Dialogue" data-it="Dialogo interculturale">Intercultural Dialogue</h3>
+          <p class="text-orobic-slate text-sm leading-relaxed"
+             data-en="Inclusive spaces for youth from diverse backgrounds via group work, simulations, and creative workshops."
+             data-it="Spazi inclusivi per giovani di provenienze diverse attraverso lavori di gruppo, simulazioni e workshop creativi.">Inclusive spaces for youth from diverse backgrounds via group work, simulations, and creative workshops.</p>
+        </div>
+
+        <div class="soft-card p-7 reveal">
+          <div class="w-14 h-14 rounded-2xl bg-orobic-peach flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-2" data-en="Regular Initiatives" data-it="Iniziative continuative">Regular Initiatives</h3>
+          <p class="text-orobic-slate text-sm leading-relaxed"
+             data-en="Capacity building, research and advocacy, and conferences that connect youth, experts, and institutions."
+             data-it="Capacity building, ricerca e advocacy, conferenze che mettono in dialogo giovani, esperti e istituzioni.">Capacity building, research and advocacy, and conferences that connect youth, experts, and institutions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TEAM
+       ============================================================ -->
+  <section id="team" class="py-16 sm:py-24 lg:py-32 bg-orobic-peach/40">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10 sm:mb-14 reveal">
+        <p class="eyebrow" data-en="Our team" data-it="Il nostro team">Our team</p>
+        <h2 class="section-title text-3xl sm:text-4xl md:text-5xl mt-2"
+            data-en="The people behind Orobic Youth."
+            data-it="Le persone dietro Orobic Youth.">The people behind Orobic Youth.</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 max-w-4xl">
+        <article class="soft-card p-6 reveal">
+          <!-- REPLACE: photo — Shayan portrait -->
+          <img class="team-portrait mb-5" src="assets/IMG_8105.jpg" alt="Shayan Taghizadeh Javid" />
+          <h3 class="font-display font-bold text-2xl">Shayan Javid</h3>
+          <p class="text-orobic-orangeDk font-semibold text-sm mt-1 mb-3 uppercase tracking-wider"
+             data-en="President & Legal Representative"
+             data-it="Presidente & Legale Rappresentante">President & Legal Representative</p>
+          <p class="text-orobic-slate leading-relaxed"
+             data-en="A young professional with extensive experience in youth projects, project coordination, and non-formal education at local and international levels."
+             data-it="Giovane professionista con una solida esperienza in progetti giovanili, coordinamento progettuale ed educazione non formale a livello locale e internazionale.">
+            A young professional with extensive experience in youth projects,
+            project coordination, and non-formal education at local and
+            international levels.
+          </p>
+        </article>
+
+        <article class="soft-card p-6 reveal">
+          <!-- REPLACE: photo — Zinaida portrait -->
+          <img class="team-portrait mb-5" src="assets/455027990_122179379312080254_2398900771870966495_n.jpg" alt="Zinaida Panisko" />
+          <h3 class="font-display font-bold text-2xl">Zinaida Panisko</h3>
+          <p class="text-orobic-orangeDk font-semibold text-sm mt-1 mb-3 uppercase tracking-wider"
+             data-en="Project Coordinator"
+             data-it="Coordinatrice di progetto">Project Coordinator</p>
+          <p class="text-orobic-slate leading-relaxed"
+             data-en="A young professional dedicated to social inclusion and intercultural dialogue, experienced in facilitating creative workshops and supporting international participants."
+             data-it="Giovane professionista dedicata all'inclusione sociale e al dialogo interculturale, con esperienza nella facilitazione di workshop creativi e nel supporto ai partecipanti internazionali.">
+            A young professional dedicated to social inclusion and
+            intercultural dialogue, experienced in facilitating creative
+            workshops and supporting international participants.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       JOIN / CTA BAND
+       ============================================================ -->
+  <section id="join" class="py-14 sm:py-20">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div class="cta-wrap reveal">
+        <div class="cta-band" id="ctaBand">
+          <div class="cta-content">
+            <span class="cta-eyebrow">
+              <span class="pulse"></span>
+              <span data-en="Get involved" data-it="Partecipa">Get involved</span>
+            </span>
+            <h2 class="font-display font-semibold text-white text-[2rem] sm:text-4xl md:text-[3rem] leading-[1.05] tracking-[-0.02em]">
+              <span data-en="Ready to make an" data-it="Pronto a lasciare il tuo">Ready to make an</span><br />
+              <span class="cta-accent" data-en="impact?" data-it="segno?">impact?</span>
+            </h2>
+            <p class="text-white/75 mt-5 sm:mt-6 text-base sm:text-lg max-w-xl leading-relaxed"
+               data-en="Whether you're a young person looking to grow, a youth worker seeking collaboration, or an organisation wanting to partner — we'd love to hear from you."
+               data-it="Che tu sia un giovane con voglia di crescere, un operatore giovanile in cerca di collaborazioni o un'organizzazione che vuole fare rete — ci piacerebbe sentirti.">
+              Whether you're a young person looking to grow, a youth worker
+              seeking collaboration, or an organisation wanting to partner —
+              we'd love to hear from you.
+            </p>
+            <span class="cta-rule"></span>
+            <div class="flex flex-col sm:flex-row flex-wrap gap-3">
+              <a href="mailto:orobicyouth@gmail.com" class="btn-cta-primary">
+                <span data-en="Email the team" data-it="Scrivi al team">Email the team</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </a>
+              <a href="#contact" class="btn-cta-secondary" data-en="Contact details" data-it="Contatti">Contact details</a>
+            </div>
+          </div>
+
+          <div class="cta-object" aria-hidden="true">
+            <div class="cta-object-card">
+              <div class="cta-object-chip">
+                <span class="dot"></span>
+                Erasmus+ &middot; EU OID E10418230
+              </div>
+              <div class="cta-object-quote">
+                <svg class="cta-object-qmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.5 7c-3 0-5 2-5 5v5h5v-5H6c0-2 1.5-3 3.5-3V7zm8 0c-3 0-5 2-5 5v5h5v-5h-3.5c0-2 1.5-3 3.5-3V7z"/></svg>
+                <p data-en="Young people aren't the future — they're the now, shaping communities that belong to everyone."
+                   data-it="I giovani non sono il futuro — sono l'adesso, e danno forma a comunità che appartengono a tutti.">
+                  Young people aren't the future &mdash; they're the now, shaping
+                  communities that belong to everyone.
+                </p>
+              </div>
+              <div class="cta-object-footer">
+                <div class="cta-object-avatar">OY</div>
+                <div>
+                  <div class="cta-object-name">Orobic Youth</div>
+                  <div class="cta-object-role" data-en="Bergamo · Italy" data-it="Bergamo · Italia">Bergamo &middot; Italy</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER / CONTACT
+       ============================================================ -->
+  <footer id="contact" class="bg-orobic-charcoal text-orobic-cream pt-14 sm:pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 mb-12 sm:mb-14">
+        <div>
+          <div class="mb-5">
+            <img src="assets/logo.png" alt="Orobic Youth" class="w-auto mb-2 -ml-6" style="height: 200px; margin-top: -40px; margin-bottom: -20px;" />
+            <div class="text-[11px] tracking-[0.2em] opacity-70 uppercase">OID: E10418230</div>
+          </div>
+          <p class="text-orobic-cream/70 text-sm leading-relaxed max-w-sm"
+             data-en="A youth NGO from Bergamo, Italy, empowering young people across Europe through non-formal education, intercultural dialogue, and community engagement."
+             data-it="Un'associazione giovanile di Bergamo che dà voce ai giovani in tutta Europa attraverso educazione non formale, dialogo interculturale e impegno comunitario.">
+            A youth NGO from Bergamo, Italy, empowering young people across
+            Europe through non-formal education, intercultural dialogue, and
+            community engagement.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-display font-bold text-lg mb-4" data-en="Contact" data-it="Contatti">Contact</h4>
+          <ul class="space-y-3 text-sm text-orobic-cream/80">
+            <li class="flex items-center gap-3">
+              <span class="text-orobic-orange">✉</span>
+              <a href="mailto:orobicyouth@gmail.com" class="hover:text-orobic-orange transition-colors">orobicyouth@gmail.com</a>
+            </li>
+          </ul>
+
+          <div class="mt-6">
+            <div class="text-[11px] tracking-[0.18em] uppercase text-orobic-cream/60 mb-2" data-en="Language" data-it="Lingua">Language</div>
+            <div class="lang-switch lang-switch-footer" role="group" aria-label="Language">
+              <button class="lang-btn" data-lang="it" aria-label="Italiano">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="1" height="2" fill="#008C45"/><rect x="1" width="1" height="2" fill="#F4F5F0"/><rect x="2" width="1" height="2" fill="#CD212A"/></svg>
+              </button>
+              <button class="lang-btn" data-lang="en" aria-label="English">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><clipPath id="s3"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="t3"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#s3)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t3)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-display font-bold text-lg mb-4" data-en="Follow us" data-it="Seguici">Follow us</h4>
+          <!-- REPLACE: socials — update the hrefs below when accounts are live -->
+          <div class="flex gap-3">
+            <a href="#" aria-label="Instagram" class="w-11 h-11 rounded-full bg-orobic-cream/10 hover:bg-orobic-orange hover:text-orobic-charcoal flex items-center justify-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.584.012 4.85.07 1.17.054 1.805.248 2.227.413.56.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.248 1.805-.413 2.227-.217.56-.477.96-.896 1.382-.42.419-.819.679-1.381.896-.422.164-1.057.36-2.227.413-1.266.058-1.645.07-4.85.07-3.204 0-3.584-.012-4.85-.07-1.17-.054-1.805-.248-2.227-.413-.56-.217-.96-.477-1.382-.896-.419-.42-.679-.819-.896-1.381-.164-.422-.36-1.057-.413-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.248-1.805.413-2.227.217-.56.477-.96.896-1.382.42-.419.819-.679 1.381-.896.422-.164 1.057-.36 2.227-.413C8.416 2.212 8.796 2.2 12 2.2zm0 1.802c-3.148 0-3.522.011-4.767.068-1.05.048-1.622.22-2.002.37-.504.196-.864.43-1.242.808-.378.378-.612.738-.808 1.242-.15.38-.32.952-.37 2.002-.057 1.245-.068 1.619-.068 4.767 0 3.148.011 3.522.068 4.767.048 1.05.22 1.622.37 2.002.196.504.43.864.808 1.242.378.378.738.612 1.242.808.38.15.952.32 2.002.37 1.245.057 1.619.068 4.767.068 3.148 0 3.522-.011 4.767-.068 1.05-.048 1.622-.22 2.002-.37.504-.196.864-.43 1.242-.808.378-.378.612-.738.808-1.242.15-.38.32-.952.37-2.002.057-1.245.068-1.619.068-4.767 0-3.148-.011-3.522-.068-4.767-.048-1.05-.22-1.622-.37-2.002-.196-.504-.43-.864-.808-1.242-.378-.378-.738-.612-1.242-.808-.38-.15-.952-.32-2.002-.37C15.522 4.013 15.148 4.002 12 4.002zm0 3.063a4.933 4.933 0 110 9.866 4.933 4.933 0 010-9.866zm0 8.134a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4zm6.406-8.336a1.152 1.152 0 110 2.304 1.152 1.152 0 010-2.304z"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook" class="w-11 h-11 rounded-full bg-orobic-cream/10 hover:bg-orobic-orange hover:text-orobic-charcoal flex items-center justify-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.52 1.5-3.91 3.78-3.91 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.79l-.45 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+            </a>
+            <a href="#" aria-label="TikTok" class="w-11 h-11 rounded-full bg-orobic-cream/10 hover:bg-orobic-orange hover:text-orobic-charcoal flex items-center justify-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z"/></svg>
+            </a>
+          </div>
+
+          <div class="mt-8 p-4 rounded-xl bg-orobic-cream/5 border border-orobic-cream/10">
+            <img src="assets/eu-funded.png" alt="Funded by the European Union" class="w-auto block" style="height: 220px; margin: -45px 0 -35px -18px;" />
+            <p class="text-xs text-orobic-cream/80 leading-snug mt-2"
+               data-en="Views and opinions expressed are those of the author(s) only and do not necessarily reflect those of the European Union."
+               data-it="Le opinioni espresse appartengono esclusivamente agli autori e non riflettono necessariamente quelle dell'Unione Europea.">Views and opinions expressed are those of the author(s) only and do not necessarily reflect those of the European Union.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-orobic-cream/10 pt-6 flex flex-col md:flex-row gap-3 items-center justify-between text-xs text-orobic-cream/60">
+        <p>© <span id="year"></span> <span data-en="Orobic Youth. All rights reserved." data-it="Orobic Youth. Tutti i diritti riservati.">Orobic Youth. All rights reserved.</span></p>
+        <p data-en="Made with care in Bergamo, Italy." data-it="Fatto con cura a Bergamo, Italia.">Made with care in Bergamo, Italy.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JS — mobile menu, scroll header, reveal, project wiring
+       ============================================================ -->
+  <script>
+    // Year first (so the language script can leave it alone)
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ====== Language switcher (IT default, EN alternative) ======
+    (function initLang() {
+      const STORAGE_KEY = 'orobic-lang';
+      const urlLang = new URLSearchParams(location.search).get('lang');
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const initial = (urlLang === 'en' || urlLang === 'it') ? urlLang : (saved || 'it');
+
+      const applyLang = (lang) => {
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-it][data-en]').forEach(el => {
+          const next = el.getAttribute('data-' + lang);
+          if (next == null) return;
+          if (el.tagName === 'META') {
+            el.setAttribute('content', next);
+          } else if (el.tagName === 'TITLE') {
+            document.title = next;
+          } else {
+            el.textContent = next;
+          }
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        localStorage.setItem(STORAGE_KEY, lang);
+      };
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+      });
+
+      applyLang(initial);
+    })();
+
+    // Header + mobile menu
+    const header = document.getElementById('siteHeader');
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const syncMenuState = () => header.classList.toggle('menu-open', mobileMenu.classList.contains('open'));
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      syncMenuState();
+    });
+    mobileMenu.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        syncMenuState();
+      })
+    );
+
+    // Header scroll effect
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+    // Project cards — wire data-project-link / data-join-link to all buttons + thumbnail
+    document.querySelectorAll('.project-card').forEach((card) => {
+      const projectLink = card.dataset.projectLink;
+      const joinLink    = card.dataset.joinLink;
+      if (projectLink) {
+        card.querySelectorAll('.project-thumb, .project-view').forEach(el => el.setAttribute('href', projectLink));
+      }
+      if (joinLink) {
+        card.querySelectorAll('.project-join').forEach(el => el.setAttribute('href', joinLink));
+      }
+    });
+
+    // ===== Projects 3D carousel — swipe/drag + snap + 3D depth =====
+    (function initCarousel() {
+      const track = document.getElementById('projectsTrack');
+      const prevBtn = document.getElementById('carouselPrev');
+      const nextBtn = document.getElementById('carouselNext');
+      const dotsEl = document.getElementById('carouselDots');
+      const hint = document.getElementById('swipeHint');
+      if (!track) return;
+
+      const cards = Array.from(track.querySelectorAll('.project-card'));
+      if (cards.length === 0) return;
+
+      // Compute which card is currently centered by measuring scroll position
+      const getCenterIndex = () => {
+        const trackRect = track.getBoundingClientRect();
+        const center = trackRect.left + trackRect.width / 2;
+        let best = 0, bestDist = Infinity;
+        cards.forEach((c, i) => {
+          const r = c.getBoundingClientRect();
+          const d = Math.abs(r.left + r.width / 2 - center);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        return best;
+      };
+
+      // Update 3D position classes (far-left / left / center / right / far-right)
+      const updatePositions = () => {
+        const i = getCenterIndex();
+        cards.forEach((c, k) => {
+          const diff = k - i;
+          let pos = 'far-right';
+          if (diff === 0)  pos = 'center';
+          else if (diff === -1) pos = 'left';
+          else if (diff ===  1) pos = 'right';
+          else if (diff <  -1)  pos = 'far-left';
+          c.dataset.pos = pos;
+        });
+        // Dots
+        dotsEl.querySelectorAll('.carousel-dot').forEach((d, k) => {
+          d.classList.toggle('is-active', k === i);
+        });
+        // Arrows
+        prevBtn.disabled = i === 0;
+        nextBtn.disabled = i === cards.length - 1;
+      };
+
+      // Scroll to a specific card index
+      const scrollToIndex = (i) => {
+        const target = cards[Math.max(0, Math.min(cards.length - 1, i))];
+        if (!target) return;
+        const trackRect = track.getBoundingClientRect();
+        const cardRect = target.getBoundingClientRect();
+        const delta = (cardRect.left + cardRect.width / 2) - (trackRect.left + trackRect.width / 2);
+        track.scrollBy({ left: delta, behavior: 'smooth' });
+      };
+
+      // Build dots
+      cards.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Go to project ${i + 1}`);
+        dot.addEventListener('click', () => scrollToIndex(i));
+        dotsEl.appendChild(dot);
+      });
+
+      // Arrow handlers
+      prevBtn.addEventListener('click', () => scrollToIndex(getCenterIndex() - 1));
+      nextBtn.addEventListener('click', () => scrollToIndex(getCenterIndex() + 1));
+
+      // Throttled scroll listener
+      let scrollRaf = null;
+      track.addEventListener('scroll', () => {
+        if (scrollRaf) return;
+        scrollRaf = requestAnimationFrame(() => {
+          updatePositions();
+          scrollRaf = null;
+        });
+      }, { passive: true });
+
+      // === Mouse drag-to-scroll (desktop) ===
+      let isDown = false, startX = 0, startScroll = 0, moved = 0;
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        moved = 0;
+        startX = e.pageX;
+        startScroll = track.scrollLeft;
+        track.classList.add('is-dragging');
+      });
+      track.addEventListener('mouseleave', () => {
+        if (isDown) { isDown = false; track.classList.remove('is-dragging'); snapToNearest(); }
+      });
+      track.addEventListener('mouseup', () => {
+        if (!isDown) return;
+        isDown = false;
+        track.classList.remove('is-dragging');
+        snapToNearest();
+      });
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const dx = e.pageX - startX;
+        moved = Math.abs(dx);
+        track.scrollLeft = startScroll - dx;
+      });
+      // Prevent the drag from becoming a click on a link if the user dragged
+      track.addEventListener('click', (e) => {
+        if (moved > 8) { e.preventDefault(); e.stopPropagation(); }
+      }, true);
+
+      const snapToNearest = () => {
+        const i = getCenterIndex();
+        scrollToIndex(i);
+      };
+
+      // Hide swipe hint after first interaction
+      const hideHint = () => hint?.classList.add('is-hidden');
+      track.addEventListener('touchstart', hideHint, { passive: true, once: true });
+      track.addEventListener('mousedown', hideHint, { once: true });
+
+      // Keyboard nav
+      track.tabIndex = 0;
+      track.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollToIndex(getCenterIndex() - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); scrollToIndex(getCenterIndex() + 1); }
+      });
+
+      // Initial positioning
+      requestAnimationFrame(updatePositions);
+      window.addEventListener('resize', () => setTimeout(updatePositions, 100));
+    })();
+
+    // Interactive 3D CTA — mouse-tracked tilt + parallax shapes
+    (function initCta3d() {
+      const band = document.getElementById('ctaBand');
+      if (!band) return;
+      const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+      if (isCoarse) return; // skip on touch devices
+
+      let raf = null;
+      let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+
+      const render = () => {
+        currentX += (targetX - currentX) * 0.12;
+        currentY += (targetY - currentY) * 0.12;
+        band.style.setProperty('--mx', currentX.toFixed(3));
+        band.style.setProperty('--my', currentY.toFixed(3));
+        if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
+          raf = requestAnimationFrame(render);
+        } else {
+          raf = null;
+        }
+      };
+
+      band.addEventListener('mousemove', (e) => {
+        const r = band.getBoundingClientRect();
+        targetX = ((e.clientX - r.left) / r.width  - 0.5) * 2;  // -1 .. 1
+        targetY = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+        if (!raf) raf = requestAnimationFrame(render);
+      });
+      band.addEventListener('mouseleave', () => {
+        targetX = 0; targetY = 0;
+        if (!raf) raf = requestAnimationFrame(render);
+      });
+    })();
+  </script>
+</body>
+</html>
