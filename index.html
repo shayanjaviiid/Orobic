@@ -209,7 +209,12 @@
       position: relative;
       color: #fff;
       font-weight: 500;
+      text-shadow:
+        0 1px 2px rgba(0,0,0,.5),
+        0 2px 8px rgba(0,0,0,.35);
+      transition: text-shadow .3s ease;
     }
+    .site-header.scrolled .nav-link { text-shadow: none; }
     .nav-link::after {
       content: "";
       position: absolute; left: 0; bottom: -6px;
@@ -218,6 +223,13 @@
       transition: width .25s ease;
     }
     .nav-link:hover::after { width: 100%; }
+    /* Hamburger icon — drop shadow so it's visible on the photo */
+    #menuToggle {
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,.5)) drop-shadow(0 2px 6px rgba(0,0,0,.3));
+      transition: filter .3s ease;
+    }
+    .site-header.scrolled #menuToggle,
+    .site-header.menu-open #menuToggle { filter: none; }
 
     /* Hero — Bergamo cityscape with a soft warm overlay so the photo
        is clearly visible while headline text stays legible. */
@@ -249,20 +261,39 @@
     }
     .hero-text {
       position: relative;
-      color: #fff;
+      color: #ffffff;
       text-shadow:
-        0 1px 2px rgba(0,0,0,.7),
-        0 2px 14px rgba(0,0,0,.55);
+        0 1px 2px rgba(0,0,0,.85),
+        0 2px 8px rgba(0,0,0,.65),
+        0 4px 24px rgba(0,0,0,.4);
     }
-    .hero-script { color: var(--orobic-peach); }
+    .hero-script {
+      color: var(--orobic-peach);
+      text-shadow:
+        0 1px 2px rgba(0,0,0,.75),
+        0 2px 10px rgba(0,0,0,.4);
+    }
     .hero-text .accent {
       color: var(--orobic-orange);
       text-shadow:
-        0 1px 2px rgba(0,0,0,.6),
-        0 2px 18px rgba(232,130,58,.55);
+        0 1px 2px rgba(0,0,0,.8),
+        0 2px 12px rgba(0,0,0,.55),
+        0 2px 22px rgba(232,130,58,.45);
     }
+    /* Scale the shadow intensity down slightly on phones for balance */
     @media (max-width: 640px) {
       .hero { min-height: 100vh; }
+      .hero-text {
+        text-shadow:
+          0 1px 2px rgba(0,0,0,.8),
+          0 2px 6px rgba(0,0,0,.55),
+          0 4px 16px rgba(0,0,0,.35);
+      }
+      .hero-text .accent {
+        text-shadow:
+          0 1px 2px rgba(0,0,0,.75),
+          0 2px 10px rgba(0,0,0,.5);
+      }
     }
 
     /* Buttons */
@@ -294,12 +325,14 @@
       background: #E8823A;
       color: #fff;
       letter-spacing: -0.005em;
+      text-shadow: 0 1px 2px rgba(60,20,0,.35);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.28),
         0 8px 18px -6px rgba(60,20,0,.35),
         0 1px 2px rgba(60,20,0,.2);
       transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease, background .25s ease;
     }
+    .btn-hero svg { filter: drop-shadow(0 1px 1px rgba(60,20,0,.35)); }
     .btn-hero:hover {
       background: #D26B22;
       color: #fff;
@@ -318,6 +351,7 @@
       color: var(--orobic-charcoal);
       border: 1.5px solid rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(6px);
+      text-shadow: 0 1px 0 rgba(255,255,255,.6);
       box-shadow: 0 8px 20px -10px rgba(0,0,0,.35);
     }
     .btn-ghost:hover {
@@ -325,6 +359,11 @@
       color: var(--orobic-charcoal);
       transform: translateY(-2px);
       box-shadow: 0 14px 28px -10px rgba(0,0,0,.4);
+    }
+    /* Hero CTA — stack to full width on phones for cleaner mobile layout */
+    @media (max-width: 640px) {
+      .hero-cta { width: 100%; max-width: 360px; }
+      .hero-cta .btn { width: 100%; padding: .95rem 1.5rem; }
     }
     .btn-secondary {
       background: transparent;
@@ -1224,7 +1263,7 @@
           We create opportunities for young people in Bergamo and across Europe
           to be active, gain skills, and drive positive social change.
         </p>
-        <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 reveal">
+        <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 reveal hero-cta">
           <a href="#projects" class="btn btn-hero justify-center sm:justify-start">
             <span data-en="Explore Our Projects" data-it="Scopri i progetti">Explore Our Projects</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
@@ -1285,11 +1324,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orobic-orangeDk" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           </div>
           <h3 class="font-display font-bold text-2xl mb-3" data-en="Our Objectives" data-it="I nostri obiettivi">Our Objectives</h3>
-          <ul class="text-orobic-slate leading-relaxed space-y-2 text-sm">
-            <li data-en="· Promote youth mobility and intercultural exchange" data-it="· Promuovere la mobilità giovanile e lo scambio interculturale">· Promote youth mobility and intercultural exchange</li>
-            <li data-en="· Encourage youth employment and entrepreneurship" data-it="· Incoraggiare l'occupazione giovanile e l'imprenditoria">· Encourage youth employment and entrepreneurship</li>
-            <li data-en="· Foster active citizenship and equal opportunities" data-it="· Favorire la cittadinanza attiva e le pari opportunità">· Foster active citizenship and equal opportunities</li>
-            <li data-en="· Integrate minorities and build international networks" data-it="· Integrare le minoranze e costruire reti internazionali">· Integrate minorities and build international networks</li>
+          <ul class="text-orobic-slate leading-relaxed space-y-1 text-sm">
+            <li data-en="Promote youth mobility and intercultural exchange" data-it="Promuovere la mobilità giovanile e lo scambio interculturale">· Promote youth mobility and intercultural exchange</li>
+            <li data-en="Encourage youth employment and entrepreneurship" data-it="Incoraggiare l'occupazione giovanile e l'imprenditoria">· Encourage youth employment and entrepreneurship</li>
+            <li data-en="Foster active citizenship and equal opportunities" data-it="Favorire la cittadinanza attiva e le pari opportunità">· Foster active citizenship and equal opportunities</li>
+            <li data-en="Integrate minorities and build international networks" data-it="Integrare le minoranze e costruire reti internazionali">· Integrate minorities and build international networks</li>
           </ul>
         </article>
       </div>
@@ -1742,8 +1781,8 @@
             <a href="#" aria-label="Facebook" class="w-11 h-11 rounded-full bg-orobic-cream/10 hover:bg-orobic-orange hover:text-orobic-charcoal flex items-center justify-center transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.52 1.5-3.91 3.78-3.91 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.79l-.45 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
             </a>
-            <a href="#" aria-label="TikTok" class="w-11 h-11 rounded-full bg-orobic-cream/10 hover:bg-orobic-orange hover:text-orobic-charcoal flex items-center justify-center transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z"/></svg>
+            <a href="#" aria-label="YouTube" class="w-11 h-11 rounded-full bg-orobic-cream/10 hover:bg-orobic-orange hover:text-orobic-charcoal flex items-center justify-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.57A3 3 0 00.5 6.2 31.4 31.4 0 000 12a31.4 31.4 0 00.5 5.8 3 3 0 002.11 2.13C4.5 20.5 12 20.5 12 20.5s7.5 0 9.39-.57a3 3 0 002.11-2.13A31.4 31.4 0 0024 12a31.4 31.4 0 00-.5-5.8zM9.75 15.57V8.43L15.82 12l-6.07 3.57z"/></svg>
             </a>
           </div>
 
